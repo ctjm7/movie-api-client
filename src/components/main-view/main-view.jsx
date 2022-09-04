@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { LoginView } from '../login-view/login-view';
-import { RegistrationView } from '../registration-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
@@ -38,7 +38,7 @@ export class MainView extends React.Component {
   }
 
   /* When a user registers, this function posts user information */
-  onRegister(register) {
+  onRegistration(register) {
     this.setState({
       register
     });
@@ -53,8 +53,8 @@ export class MainView extends React.Component {
   render() {
     const {movies, selectedMovie, user, register} = this.state;
 
-    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView */
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView */
+    if (!user) return (<LoginView onLoggedIn={user => this.onLoggedIn(user)} />);
 
     if (!register) return <RegistrationView onRegistration={register => this.onRegistration(register)} />;
 
@@ -76,7 +76,6 @@ export class MainView extends React.Component {
 export default MainView;
 
 MainView.propTypes = {
-  movie: PropTypes.isRequired,
   onMovieClick: PropTypes.func.isRequired,
   onBackClick: PropTypes.func.isRequired,
   onLoggedIn: PropTypes.func.isRequired,

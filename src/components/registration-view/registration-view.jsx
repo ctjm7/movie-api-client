@@ -18,6 +18,9 @@ export function RegistrationView(props) {
 
   return (
     <form>
+      <label for="register">
+        Register
+      </label>
       <label>
         Username:
         <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
@@ -32,15 +35,15 @@ export function RegistrationView(props) {
       </label>
       <label>
         Birthday:
-      <input type="date" value={date} onChange={e => setBirthday(e.target.value)} />
+      <input type="date" value={birthday} onChange={e => setBirthday(e.target.value)} />
       </label>
-      <button type="submit" onClick={handleSubmit}>Register</button>
+      <button type="submit" onClick={handleSubmit}>Submit</button>
     </form>
   );
 }
 
 RegistrationView.propTypes = {
-  user: PropTypes.shape({
+  register: PropTypes.shape({
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired

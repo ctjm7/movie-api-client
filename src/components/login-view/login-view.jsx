@@ -15,6 +15,9 @@ export function LoginView(props) {
 
   return (
     <form>
+      <label for="login">
+        Login
+      </label><br />
       <label>
         Username:
         <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
