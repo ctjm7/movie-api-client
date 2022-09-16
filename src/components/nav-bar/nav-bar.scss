@@ -1,0 +1,14 @@
+$color: rgb(46, 117, 175);
+
+.nav {
+  background-color: $color;
+}
+
+.nav-img {
+  padding: 7px 14px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}

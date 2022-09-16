@@ -1,0 +1,68 @@
+.login {
+  width: 50%;
+  color: #2e75af;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+.reg {
+  width: 50%;
+  color: #2e75af;
+}
+
+.fav-movie {
+  margin-bottom: 15px;
+}
+
+.figure {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.img {
+  height: 400px;
+  margin: auto;
+  display: block;
+}
+
+.fig-caption {
+  text-align: center;
+}
+
+.button {
+  margin: auto;
+  display: block;
+}
+
+.card {
+  margin-bottom: 15px;
+}
+
+
+
+.nav {
+  background-color: #2e75af;
+}
+
+.nav-img {
+  padding: 7px 14px;
+}
+
+.navbar-brand {
+  align-items: center;
+  display: flex;
+}
+
+
+
+.my-flix {
+  color: #4682b4;
+}
+
+/*# sourceMappingURL=index.27d8da6b.css.map */
