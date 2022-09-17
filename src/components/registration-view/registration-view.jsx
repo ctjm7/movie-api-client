@@ -1,41 +1,77 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 import { Form, Button, Navbar, Nav, Container, Row, Col, Card } from "react-bootstrap";
 import './registration-view.scss'
+import { NavBar } from '../nav-bar/nav-bar';
 
 export function RegistrationView(props) {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
 	const [birthday, setBirthday] = useState("");
+	const [usernameErr, setUsernameErr] = useState("");
+	const [passwordErr, setPasswordErr] = useState("");
+	const [emailErr, setEmailErr] = useState("");
+
+		// validate user inputs
+	const validate = () => {
+		let isReq = true;
+		if (!username) {
+			setUsernameErr("Username Required");
+			isReq = false;
+		} else if (username.length < 2) {
+			setUsernameErr("Username must be 2 characters long");
+			isReq = false;
+		}
+		if (!password) {
+			setPasswordErr("Password Required");
+			isReq = false;
+		} else if (password.length < 4) {
+			setPassword("Password must be 4 characters long");
+			isReq = false;
+		}
+		if (!email) {
+			setEmailErr("Email Required");
+			isReq = false;
+		} else if (email.indexOf("@") === -1) {
+			setEmail("Not a valid email address")
+			isReq = false;
+		}
+		return isReq;
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(username, password, email, birthday);
-		/* Send a request to the server for authentication */
-		/* then call props.onRegistration(username) */
-		props.onRegistration(username);
+			const isReq = validate();
+		if (isReq) {
+			/* Send a request to the server */
+			axios
+				.post("https://seeyouatmovies.herokuapp.com/users", {
+					Username: username,
+					Password: password,
+					Email: email,
+					Birthday: birthday
+				})
+				.then((res) => {
+					const data = res.data
+					console.log(data);
+					alert("Registration was successful, please login");
+					window.open("/login", "_self");
+
+				})
+				.catch((e) => {
+					console.log("no to register");
+					alert("unable to register");
+				});
+		}
 	};
 
 	return (
 		<Container>
-			<Navbar className="nav mb-1" variant="dark">
-				<Container>
-					<Navbar.Brand herf="">
-						<img
-							src="src/img/movie-reel-icon.svg"
-							width="30"
-							height="30"
-							className="d-inline-block align-top nav-logo"
-						/>
-						See You at the Movies!
-					</Navbar.Brand>
-					<Nav className="me-auto">
-						<Nav.Link href="">Home</Nav.Link>
-						<Nav.Link href="">Profile</Nav.Link>
-					</Nav>
-				</Container>
-			</Navbar>
+			<Row>
+				<NavBar />
+			</Row>
 
 			<Row>
 				<Col>
@@ -50,7 +86,7 @@ export function RegistrationView(props) {
 										placeholder="Enter Username"
 										onChange={(e) => setUsername(e.target.value)}
 										required
-										minLength="4"
+										minLength="2"
 									/>
 								</Form.Group>
 
@@ -58,10 +94,10 @@ export function RegistrationView(props) {
 									<Form.Label>Password:</Form.Label>
 									<Form.Control
 										type="password"
-										placeholder="Must be 8 or more characters"
+										placeholder="Must be 4 or more characters"
 										onChange={(e) => setPassword(e.target.value)}
 										required
-										minLength="8"
+										minLength="4"
 									/>
 								</Form.Group>
 
@@ -79,7 +115,7 @@ export function RegistrationView(props) {
 									<Form.Label>Birthday:</Form.Label>
 									<Form.Control
 										type="birthday"
-										placeholder="Enter Birthday"
+										placeholder="YYYY-MM-DD"
 										onChange={(e) => setBirthday(e.target.value)}
 									/>
 								</Form.Group>
@@ -101,9 +137,7 @@ export function RegistrationView(props) {
 }
 
 RegistrationView.propTypes = {
-	register: PropTypes.shape({
 		username: PropTypes.string.isRequired,
 		password: PropTypes.string.isRequired,
 		email: PropTypes.string.isRequired,
-	})
 };

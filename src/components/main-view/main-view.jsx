@@ -1,86 +1,86 @@
 import React from 'react';
 import axios from 'axios';
+import { Container, Row, Col } from "react-bootstrap";
+import { BrowserRouter as Router, Routes, Route, Redirect } from 'react-router-dom';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
-import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
+import { ProfileView } from '../profile-view/profile-view';
+
+import { NavBar } from '../nav-bar/nav-bar';
 import './main-view.scss';
 
 export class MainView extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			movies: [],
+			user: null
+		};
+	}
 
-  constructor(){
-    super();
-      this.state = {
-        movies: [],
-        selectedMovie: null,
-        user: null,
-        register: null
-      };
-  }
+	componentDidMount() {
+		let accessToken = localStorage.getItem("token");
+		if (accessToken !== null) {
+			this.setState({
+				user: localStorage.getItem("user"),
+			});
+			this.getMovies(accessToken);
+		}
+	}
 
-  componentDidMount(){
-    axios.get('https://seeyouatmovies.herokuapp.com/movies')
-      .then(response => {
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+	onRegistration(user) {
+		console.log(user);
+		this.setState({
+			username: user.Username,
+			password: user.Password,
+			email: user.Email
+		});
+	}
 
-  /* When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` property to that movie */
-  setSelectedMovie(newSelectedMovie) {
-    this.setState({
-      selectedMovie: newSelectedMovie
-    });
-  }
+	onLoggedIn(authData) {
+		console.log(authData);
+		this.setState({
+			user: authData.user.Username,
+		});
+		localStorage.setItem("token", authData.token);
+		localStorage.setItem("user", authData.user.Username);
+		this.getMovies(authData.token);
+	}
 
-  /* When a user registers, this function posts user information */
-  onRegistration(register) {
-    this.setState({
-      register
-    });
-  }
-  /* When a user successfully logs in, this function updates the `user` property in state to that particular user */
-  onLoggedIn(user) {
-    this.setState({
-      user
-    });
-  }
+	getMovies(token) {
+		axios
+			.get("https://seeyouatmovies.herokuapp.com/movies", {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				this.setState({
+					movies: response.data,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
-  render() {
-    const {movies, selectedMovie, user, register} = this.state;
+	render() {
+		const { movies, user } = this.state;
 
-    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView */
-    if (!user) return (<LoginView onLoggedIn={user => this.onLoggedIn(user)} />);
+		/* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView */
+		if (!user)
+			return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
 
-    // if (!register) return <RegistrationView onRegistration={register => this.onRegistration(register)} />;
 
-    if (movies.length === 0) return <div className="main-view" />;
+		// if (!user) return <RegistrationView onRegistration={register => this.onRegistration(register)} />;
 
-    return (
+		if (movies.length === 0) return <div className="main-view" />;
+
+		return (
 			<Container fluid>
-				<Navbar className="nav mb-1" variant="dark">
-					<Container>
-						<Navbar.Brand herf="">
-							<img
-								src="../img/movie-reel-icon.svg"
-								width="30"
-								height="30"
-								className="d-inline-block align-top nav-logo"
-							/>
-							See You at the Movies!
-						</Navbar.Brand>
-						<Nav className="me-auto">
-							<Nav.Link href="">Home</Nav.Link>
-							<Nav.Link href="">Profile</Nav.Link>
-							<Nav.Link href="">Register</Nav.Link>
-						</Nav>
-					</Container>
-				</Navbar>
+				<Row>
+					<NavBar />
+				</Row>
 
 				<Row className="main-view justify-content-md-center">
 					{selectedMovie ? (
@@ -106,9 +106,25 @@ export class MainView extends React.Component {
 						))
 					)}
 				</Row>
+				{/* <Router>
+					<Routes>
+						<Route
+							path="/register"
+							element={<RegistrationView />}
+							render={() => {
+								if (user) return <Redirect to="/" />;
+								return (
+									<Col md={8}>
+										<RegistrationView />
+									</Col>
+								);
+							}}
+						/>
+					</Routes>
+				</Router> */}
 			</Container>
 		);
-  }
+	}
 }
 
 export default MainView;

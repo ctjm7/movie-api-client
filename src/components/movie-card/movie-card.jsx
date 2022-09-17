@@ -4,20 +4,23 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 export class MovieCard extends React.Component {
   render() {
-    const { movie, onMovieClick } = this.props;
+    const { movie } = this.props;
 
     return (
-
-          <Card className="movieCard my-1">
-            <Card.Img variant="top" src={movie.imagePath} />
-            <Card.Body>
-              <Card.Title>{movie.Title}</Card.Title>
-              <Card.Text>{movie.Description}</Card.Text>
-              <Button onClick={() => onMovieClick(movie)} variant="link">Open</Button>
-            </Card.Body>
-          </Card>
-
-    );
+			<Card className="movieCard my-1">
+				<Card.Img variant="top" src={movie.ImagePath} />
+				<Card.Body>
+					<Card.Title>{movie.Title}</Card.Title>
+					<Card.Text>{movie.Description}</Card.Text>
+					{/* <Link to={`/movies/${movies._id}`}>
+						<Button variant="link">Open</Button>
+					</Link> */}
+					<Button onClick={() => onMovieClick(movie)} variant="link">
+						Open
+					</Button>
+				</Card.Body>
+			</Card>
+		);
   }
 }
 
@@ -34,6 +37,5 @@ MovieCard.propTypes = {
       Name: PropTypes.string.isRequired,
       Bio: PropTypes.string.isRequired
     })
-  }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
+  }).isRequired
 };

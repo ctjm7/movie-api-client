@@ -1,40 +1,60 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Navbar, Nav, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import axios from 'axios';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { NavBar } from '../nav-bar/nav-bar';
 import './login-view.scss';
 
 export function LoginView(props) {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [usernameErr, setUsernameErr] = useState("");
+	const [passwordErr, setPasswordErr] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(username, password);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username);
-  };
+	// validate user inputs
+	const validate = () => {
+		let isReq = true;
+		if (!username) {
+			setUsernameErr("Username Required");
+			isReq = false;
+		} else if (username.length < 2) {
+			setUsernameErr("Username must be 2 characters long");
+			isReq = false;
+		}
+		if (!password) {
+			setPasswordErr("Password Required");
+			isReq = false;
+		} else if (password.length < 4) {
+			setPassword("Password must be 4 characters long");
+			isReq = false;
+		}
+		return isReq;
+	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const isReq = validate();
+		if (isReq) {
+			/* Send a request to the server for authentication */
+			axios
+				.post("https://seeyouatmovies.herokuapp.com/login", {
+					Username: username,
+					Password: password
+				})
+				.then((response) => {
+					const data = response.data;
+					props.onLoggedIn(data);
+				})
+				.catch((e) => {
+					console.log("no such user");
+				});
+		}
+	};
 	return (
 		<Container>
-			<Navbar className="nav mb-1" variant="dark">
-				<Container>
-					<Navbar.Brand herf="">
-						<img
-							src="src/img/movie-reel-icon.svg"
-							width="30"
-							height="30"
-							className="d-inline-block align-top nav-logo"
-						/>
-						See You at the Movies!
-					</Navbar.Brand>
-					<Nav className="me-auto">
-						<Nav.Link href="">Home</Nav.Link>
-						<Nav.Link href="">Profile</Nav.Link>
-						<Nav.Link href="">Register</Nav.Link>
-					</Nav>
-				</Container>
-			</Navbar>
+			<Row>
+				<NavBar />
+			</Row>
 
 			<Container className="justify-content-center">
 				<Row>
@@ -51,6 +71,7 @@ export function LoginView(props) {
 											onChange={(e) => setUsername(e.target.value)}
 											required
 										/>
+										{usernameErr && <p>{usernameErr}</p>}
 									</Form.Group>
 
 									<Form.Group className="mb-3" controlId="formPassword">
@@ -61,6 +82,7 @@ export function LoginView(props) {
 											onChange={(e) => setPassword(e.target.value)}
 											required
 										/>
+										{passwordErr && <p>{passwordErr}</p>}
 									</Form.Group>
 
 									<Button
