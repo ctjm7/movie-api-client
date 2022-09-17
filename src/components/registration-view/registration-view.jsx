@@ -27,7 +27,7 @@ export function RegistrationView(props) {
 			setPasswordErr("Password Required");
 			isReq = false;
 		} else if (password.length < 6) {
-			setPassword("Password must be 6 characters long");
+			setPassword("Password must be 6 characters");
 			isReq = false;
 		}
 		if (!email) {
@@ -64,10 +64,10 @@ export function RegistrationView(props) {
 	};
 
 	return (
-		<Container>
+		<Container className="justify-content-center">
 			<Row>
 				<Col>
-					<Card className="reg mx-auto">
+					<Card className="m-auto register">
 						<Card.Body>
 							<Card.Title className="text-center">Sign up</Card.Title>
 							<Form>
@@ -80,7 +80,7 @@ export function RegistrationView(props) {
 										required
 										minLength="4"
 									/>
-									{values.usernameErr && <p>{values.usernameErr}</p>}
+									{/* {values.usernameErr && <p>{values.usernameErr}</p>} */}
 								</Form.Group>
 
 								<Form.Group className="mb-3" controlId="formPassword">
@@ -92,7 +92,7 @@ export function RegistrationView(props) {
 										required
 										minLength="6"
 									/>
-									{values.passwordErr && <p>{values.passwordErr}</p>}
+									{/* {values.passwordErr && <p>{values.passwordErr}</p>} */}
 								</Form.Group>
 
 								<Form.Group className="mb-3" controlId="formEmail">
@@ -103,7 +103,7 @@ export function RegistrationView(props) {
 										onChange={(e) => setEmail(e.target.value)}
 										required
 									/>
-									{values.emailErr && <p>{values.emailErr}</p>}
+									{/* {values.emailErr && <p>{values.emailErr}</p>} */}
 								</Form.Group>
 
 								<Form.Group className="mb-3" controlId="formBirthday">
@@ -116,6 +116,7 @@ export function RegistrationView(props) {
 								</Form.Group>
 
 								<Button
+									className="btn"
 									variant="outline-secondary"
 									type="submit"
 									onClick={handleSubmit}
@@ -131,12 +132,12 @@ export function RegistrationView(props) {
 	);
 }
 
-// RegistrationView.propTypes = {
-// 	register: PropTypes.shape({
-// 		username: PropTypes.string.isRequired,
-// 		password: PropTypes.string.isRequired,
-// 		email: PropTypes.string.isRequired,
-// 	})
-// };
+RegistrationView.propTypes = {
+	register: PropTypes.shape({
+		username: PropTypes.string.isRequired,
+		password: PropTypes.string.isRequired,
+		email: PropTypes.string.isRequired,
+	})
+};
 
 export default RegistrationView

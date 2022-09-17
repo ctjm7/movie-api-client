@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Container, Navbar, Nav, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import "./login-view.scss";
 import axios from "axios";
 
@@ -62,7 +62,6 @@ export function LoginView(props) {
 									<Form.Label>Username:</Form.Label>
 									<Form.Control
 										type="text"
-										value={username}
 										placeholder="Enter Username"
 										onChange={(e) => setUsername(e.target.value)}
 										required
@@ -75,7 +74,6 @@ export function LoginView(props) {
 									<Form.Control
 										type="password"
 										placeholder="Enter Password"
-										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 										required
 									/>

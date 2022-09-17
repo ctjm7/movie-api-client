@@ -66,6 +66,15 @@ export class MainView extends React.Component {
 				<Row className="main-view justify-content-md-center">
 					<Routes>
 						<Route
+							path="/login"
+							element={
+								<LoginView
+									movies={movies}
+									onLoggedIn={(user) => this.onLoggedIn(user)}
+								/>
+							}
+						></Route>
+						<Route
 							exact
 							path="/"
 							render={() => {
@@ -90,6 +99,7 @@ export class MainView extends React.Component {
 						/>
 						<Route
 							path="/register"
+							element={<RegistrationView />}
 							render={() => {
 								if (user) return <Redirect to="/" />;
 								return (
@@ -121,7 +131,9 @@ export class MainView extends React.Component {
 								return (
 									<Col md={8}>
 										<MovieView
-											movie={movies.find((movie) => movie._id === match.params.movieId)}
+											movie={movies.find(
+												(movie) => movie._id === match.params.movieId
+											)}
 											onBackClick={() => history.goBack()}
 										/>
 									</Col>
@@ -152,8 +164,9 @@ export class MainView extends React.Component {
 									<Col md={8}>
 										<GenreView
 											genre={
-												movies.find((movie) => movie.Genre.Name === match.params.name)
-													.Genre
+												movies.find(
+													(movie) => movie.Genre.Name === match.params.name
+												).Genre
 											}
 											onBackClick={() => history.goBack()}
 										/>

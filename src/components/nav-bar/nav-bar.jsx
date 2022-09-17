@@ -21,16 +21,20 @@ export function NavBar({ user }) {
   }
 
   return (
-		<Navbar className="nav mb-1" variant="dark">
+		<Navbar className="nav mb-1">
 			<Container>
 				<Navbar.Brand className="nav-brand" herf="/">
 					See You at the Movies!
 				</Navbar.Brand>
-				<Nav className="me-auto">
-					{isAuth() && <Nav.Link href={`/users/${user}`}>Profile</Nav.Link>}
-					{!isAuth() && <Nav.Link href="/">Login</Nav.Link>}
-					{!isAuth() && <Nav.Link href="/register">Register</Nav.Link>}
-					{isAuth() && <Button variant="link" onClick={onLoggedOut}>Logout</Button>}
+				<Nav className="me-auto nav-link">
+					{isAuth() && <Link to={`/users/${user}`}>Profile</Link>}
+					{!isAuth() && <Link to={"/login"}>Login</Link>}
+					{!isAuth() && <Link to="/register">Register</Link>}
+					{isAuth() && (
+						<Button variant="link" onClick={onLoggedOut}>
+							Logout
+						</Button>
+					)}
 				</Nav>
 			</Container>
 		</Navbar>

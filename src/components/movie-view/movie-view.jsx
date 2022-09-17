@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
-import { BrowserRouter as Route, Router } from "react-router-dom";
 import './movie-view.scss';
 
 export class MovieView extends React.Component {
@@ -11,7 +10,7 @@ export class MovieView extends React.Component {
 
 		return (
 			<Card className="movie-view">
-				<Card.Img variant="top" src={movie.imagePath} />
+				<Card.Img variant="top" src={movie.ImagePath} />
 				<Card.Body>
 					<Card.Title>{movie.Title}</Card.Title>
 
