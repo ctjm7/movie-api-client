@@ -9,7 +9,7 @@ export class MovieView extends React.Component {
 
     return (
 			<Card className="movie-view">
-				<Card.Img variant="top" src={movie.imagePath} />
+				<Card.Img variant="top" src={movie.ImagePath} />
 				<Card.Body>
 					<Card.Title>{movie.Title}</Card.Title>
 
@@ -24,7 +24,7 @@ export class MovieView extends React.Component {
 						Back
 					</Button>
 				</Card.Body>
-			</Card>
+      </Card>
 		);
   }
 }

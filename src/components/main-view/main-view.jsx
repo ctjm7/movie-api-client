@@ -1,17 +1,18 @@
 import React from 'react';
 import axios from 'axios';
-import { Container, Row, Col } from "react-bootstrap";
-import { BrowserRouter as Router, Routes, Route, Redirect } from 'react-router-dom';
+import { Container, Row, Col, Nav } from "react-bootstrap";
+import { BrowserRouter, Routes, Route, Redirect } from 'react-router-dom';
+import { render } from 'react-dom';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
-
 import { NavBar } from '../nav-bar/nav-bar';
 import './main-view.scss';
 
 export class MainView extends React.Component {
+
 	constructor() {
 		super();
 		this.state = {
@@ -28,15 +29,6 @@ export class MainView extends React.Component {
 			});
 			this.getMovies(accessToken);
 		}
-	}
-
-	onRegistration(user) {
-		console.log(user);
-		this.setState({
-			username: user.Username,
-			password: user.Password,
-			email: user.Email
-		});
 	}
 
 	onLoggedIn(authData) {
@@ -65,66 +57,69 @@ export class MainView extends React.Component {
 	}
 
 	render() {
-		const { movies, user } = this.state;
+		const { movies, user, selectedMovie } = this.state;
 
 		/* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView */
 		if (!user)
 			return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
 
-
-		// if (!user) return <RegistrationView onRegistration={register => this.onRegistration(register)} />;
-
 		if (movies.length === 0) return <div className="main-view" />;
 
 		return (
-			<Container fluid>
-				<Row>
-					<NavBar />
-				</Row>
+			// <Container fluid>
+			// 	<Row>
+			// 		<NavBar />
+			// 	</Row>
+			// 	<Row className="main-view justify-content-md-center">
+			// 		{selectedMovie ? (
+			// 			<Col md={8}>
+			// 				<MovieView
+			// 					movie={selectedMovie}
+			// 					onBackClick={(newSelectedMovie) => {
+			// 						this.setSelectedMovie(newSelectedMovie);
+			// 					}}
+			// 				/>
+			// 			</Col>
+			// 		) : (
+			// 			movies.map((movie) => (
+			// 				<Col lg={3} md={4} sm={6}>
+			// 					<MovieCard
+			// 						key={movie._id}
+			// 						movie={movie}
+			// 						onMovieClick={(newSelectedMovie) => {
+			// 							this.setSelectedMovie(newSelectedMovie);
+			// 						}}
+			// 					/>
+			// 				</Col>
+			// 			))
+			// 		)}
+			// 	</Row>
 
-				<Row className="main-view justify-content-md-center">
-					{selectedMovie ? (
-						<Col md={8}>
-							<MovieView
-								movie={selectedMovie}
-								onBackClick={(newSelectedMovie) => {
-									this.setSelectedMovie(newSelectedMovie);
-								}}
-							/>
-						</Col>
-					) : (
-						movies.map((movie) => (
-							<Col lg={3} md={4} sm={6}>
-								<MovieCard
-									key={movie._id}
-									movie={movie}
-									onMovieClick={(newSelectedMovie) => {
-										this.setSelectedMovie(newSelectedMovie);
-									}}
-								/>
-							</Col>
-						))
-					)}
-				</Row>
-				{/* <Router>
-					<Routes>
-						<Route
-							path="/register"
-							element={<RegistrationView />}
-							render={() => {
-								if (user) return <Redirect to="/" />;
-								return (
-									<Col md={8}>
-										<RegistrationView />
-									</Col>
-								);
-							}}
-						/>
-					</Routes>
-				</Router> */}
-			</Container>
+			<BrowserRouter>
+				<NavBar user={user} />
+				<Routes>
+					<Route path="/register" element={<RegistrationView />}></Route>
+				</Routes>
+			</BrowserRouter>
+
+			/* <Router>
+				<Routes>
+					<Route
+						path="/register"
+						element={<RegistrationView />}
+						render={() => {
+							if (user) return <Redirect to="/" />;
+							return (
+								<Col md={8}>
+									<RegistrationView />
+								</Col>
+							);
+						}}
+					/>
+				</Routes>
+			</Router> */
+			// </Container>
 		);
 	}
 }
-
 export default MainView;

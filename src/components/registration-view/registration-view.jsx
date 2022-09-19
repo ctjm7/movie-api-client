@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Form, Button, Navbar, Nav, Container, Row, Col, Card } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import './registration-view.scss'
 import { NavBar } from '../nav-bar/nav-bar';
 
 export function RegistrationView(props) {
+
+// const onRegistration = (user) => {
+// 		console.log(user);
+// 		this.setState({
+// 			username: user.Username,
+// 			password: user.Password,
+// 			email: user.Email
+// 		});
+// 	}
+
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
@@ -14,7 +24,7 @@ export function RegistrationView(props) {
 	const [passwordErr, setPasswordErr] = useState("");
 	const [emailErr, setEmailErr] = useState("");
 
-		// validate user inputs
+	// validate user inputs
 	const validate = () => {
 		let isReq = true;
 		if (!username) {
@@ -43,7 +53,7 @@ export function RegistrationView(props) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-			const isReq = validate();
+		const isReq = validate();
 		if (isReq) {
 			/* Send a request to the server */
 			axios
@@ -54,8 +64,8 @@ export function RegistrationView(props) {
 					Birthday: birthday
 				})
 				.then((res) => {
-					const data = res.data
-					console.log(data);
+					const user = res.user;
+					// props.onRegistration(user);
 					alert("Registration was successful, please login");
 					window.open("/login", "_self");
 
@@ -136,8 +146,8 @@ export function RegistrationView(props) {
 	);
 }
 
-RegistrationView.propTypes = {
-		username: PropTypes.string.isRequired,
-		password: PropTypes.string.isRequired,
-		email: PropTypes.string.isRequired,
-};
+// RegistrationView.propTypes = {
+// 		username: PropTypes.string.isRequired,
+// 		password: PropTypes.string.isRequired,
+// 		email: PropTypes.string.isRequired,
+// };
