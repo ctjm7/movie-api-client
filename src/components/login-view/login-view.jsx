@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
-import { NavBar } from '../nav-bar/nav-bar';
 import './login-view.scss';
 
 export function LoginView(props) {
@@ -53,7 +52,7 @@ export function LoginView(props) {
 	return (
 		<Container>
 			<Row>
-				<NavBar />
+
 			</Row>
 
 			<Container className="justify-content-center">

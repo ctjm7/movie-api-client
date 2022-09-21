@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import './registration-view.scss'
-import { NavBar } from '../nav-bar/nav-bar';
+// import { NavBar } from '../nav-bar/nav-bar';
 
 export function RegistrationView(props) {
 
@@ -79,10 +79,6 @@ export function RegistrationView(props) {
 
 	return (
 		<Container>
-			<Row>
-				<NavBar />
-			</Row>
-
 			<Row>
 				<Col>
 					<Card className="reg mx-auto">

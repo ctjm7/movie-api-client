@@ -25,14 +25,14 @@ export function NavBar({ user }) {
 			<Container>
 							<Navbar className="nav mb-1" variant="dark">
 								<Container>
-									{/* <Navbar.Brand herf="">See You at the Movies!</Navbar.Brand> */}
+									<Navbar.Brand herf="">See You at the Movies!</Navbar.Brand>
 									<Nav className="me-auto">
-										{/* <Nav.Link herf="/">Home</Nav.Link>
-										<Nav.Link herf="/profile">Profile</Nav.Link> */}
-										<Link to="/register">
+										<NavLink className="text" to="/">Home</NavLink>
+										<NavLink className="text" to="/profile">Profile</NavLink>
+										<NavLink className="text" to="/register">
 											Register
-										</Link>
-										<Button variant="link" onClick={onLoggedOut}>
+										</NavLink>
+										<Button className="text" variant="link" onClick={onLoggedOut}>
 											Logout
 										</Button>
 									</Nav>
