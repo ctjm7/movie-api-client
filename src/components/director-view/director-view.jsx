@@ -1,28 +1,23 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
 import "./director-view.scss";
 
-export class DirectorView extends React.Component {
-	render() {
-		const { director, onBackClick } = this.props;
+export function DirectorView ({movies}) {
+
+	const selectDirector = () => {
+		const { name } = useParams();
+		return movies.find((m) => m.Director.Name === name);
+	}
 
 		return (
 			<Card className="director-view">
 				<Card.Title>Director</Card.Title>
-				<Card.Subtitle>{director.Name}</Card.Subtitle>
-				<Card.Text>{director.Bio}</Card.Text>
-				{/* <Button
-					variant="outline-secondary"
-					onClick={() => {
-						onBackClick();
-					}}
-				>
-					Back
-				</Button> */}
+				<Card.Subtitle>{selectDirector().Director.Name}</Card.Subtitle>
+				<Card.Text>{selectDirector().Director.Bio}</Card.Text>
 				<Link to={-1}>
 					<Button variant="outline-secondary">Back</Button>
 				</Link>
 			</Card>
 		);
 	}
-}

@@ -3,18 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import './registration-view.scss'
-// import { NavBar } from '../nav-bar/nav-bar';
 
 export function RegistrationView(props) {
-
-// const onRegistration = (user) => {
-// 		console.log(user);
-// 		this.setState({
-// 			username: user.Username,
-// 			password: user.Password,
-// 			email: user.Email
-// 		});
-// 	}
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -38,14 +28,14 @@ export function RegistrationView(props) {
 			setPasswordErr("Password Required");
 			isReq = false;
 		} else if (password.length < 4) {
-			setPassword("Password must be 4 characters long");
+			setPasswordErr("Password must be 4 characters long");
 			isReq = false;
 		}
 		if (!email) {
 			setEmailErr("Email Required");
 			isReq = false;
 		} else if (email.indexOf("@") === -1) {
-			setEmail("Not a valid email address")
+			setEmailErr("Not a valid email address")
 			isReq = false;
 		}
 		return isReq;
@@ -64,14 +54,13 @@ export function RegistrationView(props) {
 					Birthday: birthday
 				})
 				.then((res) => {
-					const user = res.user;
-					// props.onRegistration(user);
+					const data = res.data;
 					alert("Registration was successful, please login");
 					window.open("/login", "_self");
 
 				})
 				.catch((e) => {
-					console.log("no to register");
+					console.log(e);
 					alert("unable to register");
 				});
 		}

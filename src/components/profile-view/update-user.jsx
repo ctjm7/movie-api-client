@@ -1,11 +1,11 @@
 import React from "react";
-import { Button, Form, Card, Row, Container } from "react-bootstrap";
+import { Button, Form, Card, Row, Col, Container } from "react-bootstrap";
 
 function UpdateUser({ handleSubmit, handleUpdate, user }) {
 	const deleteUser = () => {
 		let token = localStorage.getItem("token");
 		axios
-			.delete("https://seeyouatmovies.herokuapp.com/users/:Username", {
+			.delete("https://seeyouatmovies.herokuapp.com/users/:username", {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((res) => {
@@ -29,7 +29,7 @@ function UpdateUser({ handleSubmit, handleUpdate, user }) {
 									<Form.Control
 										type="text"
 										name="Username"
-										defaultValue={user.Username}
+										defaultValue={user}
 										onChange={(e) => handleUpdate(e.target.value)}
 										required
 										placeholder="Enter a username"
@@ -40,7 +40,7 @@ function UpdateUser({ handleSubmit, handleUpdate, user }) {
 									<Form.Label>Password:</Form.Label>
 									<Form.Control
 										type="password"
-										defaultValue={user.Password}
+										defaultValue=""
 										onChange={(e) => handleUpdate(e.target.value)}
 										required
 										placeholder="Password must be 4 characters"
@@ -52,7 +52,7 @@ function UpdateUser({ handleSubmit, handleUpdate, user }) {
 									<Form.Label>Email:</Form.Label>
 									<Form.Control
 										type="email"
-										defaultValue={user.Email}
+										defaultValue=""
 										onChange={(e) => handleUpdate(e.target.value)}
 										required
 										placeholder="Enter Email"
@@ -64,7 +64,7 @@ function UpdateUser({ handleSubmit, handleUpdate, user }) {
 									<Form.Control
 										type="birthday"
 										onChange={(e) => handleUpdate(e.target.value)}
-										placeholder="dd-mm-yyyy"
+										placeholder="YYYY-MM-DD"
 									/>
 								</Form.Group>
 

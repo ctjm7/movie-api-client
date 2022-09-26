@@ -1,28 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import UserInfo from "./user-info";
 import FavoriteMovies from "./favorite-movies";
 import UpdateUser from "./update-user";
 import "./profile-view.scss";
 
 export function ProfileView({ movies }) {
-	const [user, setUser] = useState();
+	const [user, setUser] = useState("");
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState("");
+	const [birthday, setBirthday] = useState("");
+	const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+	useEffect(() => {
+		let accessToken = localStorage.getItem("token");
+		if (accessToken !== null) {
+			setUser(localStorage.getItem("user"));
+			getUser(accessToken);
+		}
+	}, []);
 
 	const getUser = (token) => {
+		const user = localStorage.getItem("user");
 		axios
-			.get("https://seeyouatmovies.herokuapp.com/users/:Username", {
+			.get(`https://seeyouatmovies.herokuapp.com/users/${user}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
-				// Assign the result to the state
-				this.setState({
-					Username: response.data.Username,
-					Password: response.data.Password,
-					Email: response.data.Email,
-					Birthday: response.data.Birthday,
-				});
+				const data = response.data;
+				setUsername(data.Username);
+				setPassword(data.Password);
+				setEmail(data.Email);
+				setBirthday(data.Birthday);
+				setFavoriteMovies(data.FavoriteMovies);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -37,7 +49,7 @@ export function ProfileView({ movies }) {
 			axios
 				.post("https://seeyouatmovies.herokuapp.com/login", {
 					Username: username,
-					Password: password
+					Password: password,
 				})
 				.then((response) => {
 					const data = response.data;
@@ -61,7 +73,7 @@ export function ProfileView({ movies }) {
 						Username: username,
 						Password: password,
 						Email: email,
-						Birthday: birthday
+						Birthday: birthday,
 					},
 					{
 						headers: { Authorization: `Bearer ${token}` },
@@ -69,12 +81,10 @@ export function ProfileView({ movies }) {
 				)
 				.then((response) => {
 					const data = response.data;
-					this.setState({
-						Username: data.username,
-						Password: data.password,
-						Email: data.email,
-						Birthday: data.birthday,
-					});
+					setUsername(data.Username);
+					setPassword(data.Password);
+					setEmail(data.Email);
+					setBirthday(data.Birthday);
 					console.log(data);
 					alert("Profile is updated");
 				})
@@ -90,7 +100,9 @@ export function ProfileView({ movies }) {
 				<Col xs={12} sm={4}>
 					<Card>
 						<Card.Body>
-							<UserInfo name={user.Username} email={user.Emai} />
+							<h3>Profile</h3>
+							<p>Name: {username}</p>
+							<p>Email: {email} </p>
 						</Card.Body>
 					</Card>
 				</Col>
@@ -99,6 +111,7 @@ export function ProfileView({ movies }) {
 					<Card>
 						<Card.Body>
 							<UpdateUser
+								user={user}
 								handleSubmit={handleSubmit}
 								handleUpdate={handleUpdate}
 							/>
@@ -109,12 +122,16 @@ export function ProfileView({ movies }) {
 				<Col>
 					<Card>
 						<Card.Body>
-							<FavoriteMovies favortieMoviesList={favoriteMoviesList} />
+							{favoriteMovies.map((movieId) => {
+								let movie = movies.find((m) => m._id === movieId);
+								return (
+									<FavoriteMovies key={movieId} movie={movie} />);
+							}
+							)}
 						</Card.Body>
 					</Card>
 				</Col>
 			</Row>
-			<Link to={`/users/${user}`}>{user}</Link>;
 		</Container>
 	);
 }

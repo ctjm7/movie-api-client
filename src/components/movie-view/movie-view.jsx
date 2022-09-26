@@ -1,42 +1,56 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 
-export class MovieView extends React.Component {
+export function MovieView({movies}) {
 
-  render() {
-		const { movie, onBackClick } = this.props;
-
-
-		// const navigate = useNavigate();
-
+	const selectMovie = () => {
+		const { id } = useParams();
+		return movies.find(m => m._id === id);
+	}
 
     return (
 			<Card className="movie-view">
-				<Card.Img variant="top" src={movie.ImagePath} />
+				{/* <div>{JSON.stringify(selectMovie().Description)}</div> */}
+
+				{/* <div>{JSON.stringify(movie)}</div> */}
+
+				<Card.Img
+					className="image"
+					variant="top"
+					src={selectMovie().ImagePath}
+				/>
 				<Card.Body>
-					<Card.Title>{movie.Title}</Card.Title>
+					<Card.Title>{selectMovie().Title}</Card.Title>
 
-					<Card.Text>Description: {movie.Description}</Card.Text>
+					<Card.Text>Description: {selectMovie().Description}</Card.Text>
 
+					<Card.Text>Director: {selectMovie().Director.Name}</Card.Text>
+					<Card.Text>
+						Director Biography: {selectMovie().Director.Bio}
+					</Card.Text>
+					<Link to={`/directors/${selectMovie().Director.Name}`}>
+						<Button variant="link">Director</Button>
+					</Link>
+
+					<Card.Text>Genre: {selectMovie().Genre.Name}</Card.Text>
+					<Card.Text>
+						Genre Description: {selectMovie().Genre.Description}
+					</Card.Text>
+					<Link to={`/genre/${selectMovie().Genre.Name}`}>
+						<Button variant="link">Genre</Button>
+					</Link>
 
 					<Link to={-1}>
-					<Button
-						variant="outline-secondary"
-					>
-						Back
-				</Button>
-				</Link>
-
+						<Button variant="outline-secondary">Back</Button>
+					</Link>
 				</Card.Body>
 			</Card>
 		);
   }
-}
+// }
 
-// onClick={() => {
-// 							onBackClick();
 
 // MovieView.propTypes = {
 //   movie: PropTypes.shape({
@@ -55,14 +69,6 @@ export class MovieView extends React.Component {
 
 // };
 
-
-	{
-		/* </Card.Body>* <Card.Text>Director: {movie.Director.Name}</Card.Text>
-						<Card.Text>Director Biography: {movie.Director.Bio}</Card.Text>
-
-						<Card.Text>Genre: {movie.Genre.Name}</Card.Text>
-						<Card.Text>Genre Description: {movie.Genre.Description}</Card.Text> */
-	}
 
 	{
 		/* <Link onClick={() => {

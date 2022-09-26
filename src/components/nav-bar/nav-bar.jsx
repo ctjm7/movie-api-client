@@ -23,21 +23,25 @@ export function NavBar({ user }) {
   return (
 		<>
 			<Container>
-							<Navbar className="nav mb-1" variant="dark">
-								<Container>
-									<Navbar.Brand herf="">See You at the Movies!</Navbar.Brand>
-									<Nav className="me-auto">
-										<NavLink className="text" to="/">Home</NavLink>
-										<NavLink className="text" to="/profile">Profile</NavLink>
-										<NavLink className="text" to="/register">
-											Register
-										</NavLink>
-										<Button className="text" variant="link" onClick={onLoggedOut}>
-											Logout
-										</Button>
-									</Nav>
-								</Container>
-							</Navbar>
+				<Navbar className="nav mb-1" variant="dark">
+					<Container>
+						<Navbar.Brand herf="">See You at the Movies!</Navbar.Brand>
+						<Nav className="me-auto">
+							<NavLink className="text" to="/">
+								Home
+							</NavLink>
+							<NavLink className="text" to={`/users/${user}`}>
+								Profile
+							</NavLink>
+							<NavLink className="text" to="/register">
+								Register
+							</NavLink>
+							<Button className="text" variant="link" onClick={onLoggedOut}>
+								Logout
+							</Button>
+						</Nav>
+					</Container>
+				</Navbar>
 			</Container>
 		</>
 	);
