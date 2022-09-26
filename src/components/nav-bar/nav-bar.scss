@@ -1,0 +1,15 @@
+$color: rgb(46, 117, 175);
+
+.nav {
+  background-color: $color;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  color: white;
+  text-decoration: none;
+}

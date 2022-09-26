@@ -1,43 +1,95 @@
-import React from 'react';
-import { MovieCard } from '../movie-card/movie-card';
-import { MovieView } from '../movie-view/movie-view';
+import React, {useState, useEffect } from "react";
+import axios from "axios";
+import { Container, Row, Col } from "react-bootstrap";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LoginView } from "../login-view/login-view";
+import { RegistrationView } from "../registration-view/registration-view";
+import { MovieCard } from "../movie-card/movie-card";
+import { MovieView } from "../movie-view/movie-view";
+import { DirectorView } from "../director-view/director-view";
+import { GenreView } from "../genre-view/genre-view";
+import { ProfileView } from "../profile-view/profile-view";
+import { NavBar } from "../nav-bar/nav-bar";
+import "./main-view.scss";
 
-export class MainView extends React.Component {
 
-  constructor(){
-    super();
-    this.state = {
-      movies: [
-        { _id: 1, Title: 'Saving Private Ryan', Description: 'Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.', ImagePath: 'https://www.imdb.com/title/tt0120815/mediaviewer/rm1924732160/?ref_=tt_ov_i'},
-        { _id: 2, Title: 'This is Spinal Tap', Description: "Spinal Tap, one of England's loudest bands, is chronicled by film director Marty DiBergi on what proves to be a fateful tour.", ImagePath: 'https://www.imdb.com/title/tt0088258/mediaviewer/rm4265401600/?ref_=tt_ov_i'},
-        { _id: 3, Title: 'Stand by Me', Description: 'After the death of one of his friends, a writer recounts a childhood journey with his friends to find the body of a missing boy.', ImagePath: 'https://www.imdb.com/title/tt0092005/mediaviewer/rm3808838912/?ref_=tt_ov_i'}
-      ],
-      selectedMovie: null
+export function MainView() {
+  const [movies, setMovies] = useState([]);
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      setUser(localStorage.getItem("user"));
+      getMovies(accessToken);
     }
+  },[]);
+
+  const onLoggedIn = (authData) => {
+    console.log(authData);
+      setUser(authData.user.Username);
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
   }
 
-  setSelectedMovie(newSelectedMovie) {
-    this.setState({
-      selectedMovie: newSelectedMovie
-    });
+  const getMovies = (token) => {
+    axios
+      .get("https://seeyouatmovies.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setMovies(response.data);
+        })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-  render() {
-    const {movies, selectedMovie} = this.state;
+  return (
+		<BrowserRouter>
+			<Container fluid>
+				<Row>
+					<NavBar user={user} />
+				</Row>
+				<Row className="main-view justify-content-md-center">
+					<Routes>
+						<Route
+							path="/"
+							element={
+								/* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView */
+								!user ? (
+									<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
+								) : (
+									movies.map((m) => (
+										<Col md={3} key={m._id}>
+											<MovieCard movie={m} />
+										</Col>
+									))
+								)
+							}
+						/>
+						<Route path="/register" element={(<RegistrationView />)} />
+						<Route
+							exact
+							path="movies/:id"
+							element={<MovieView movies={movies} />}
+						/>
+						<Route
+							path="/directors/:name"
+							element={<DirectorView movies={movies} />}
+						/>
+						<Route
+							path="/genre/:name"
+							element={<GenreView movies={movies} />}
+						/>
+						<Route path={`/users/${user}`} element={<ProfileView movies={movies} user={user} />} />
+					</Routes>
+				</Row>
+			</Container>
+		</BrowserRouter>
+	);
 
-    if (movies.length === 0) return <div className="main-view">The list is empty</div>;
-
-    return (
-      <div className="main-view">
-      {selectedMovie
-        ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-        : movies.map(movie => (
-          <MovieCard key={movie._id} movie={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }}/>
-        ))
-      }
-      </div>
-    );
-  }
 }
 
 export default MainView;
