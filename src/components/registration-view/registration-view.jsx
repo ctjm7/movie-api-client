@@ -83,6 +83,7 @@ export function RegistrationView(props) {
 										required
 										minLength="2"
 									/>
+									{usernameErr && <p>{usernameErr}</p>}
 								</Form.Group>
 
 								<Form.Group className="mb-3" controlId="formPassword">
@@ -94,6 +95,7 @@ export function RegistrationView(props) {
 										required
 										minLength="4"
 									/>
+									{passwordErr && <p>{passwordErr}</p>}
 								</Form.Group>
 
 								<Form.Group className="mb-3" controlId="formEmail">
@@ -104,6 +106,7 @@ export function RegistrationView(props) {
 										onChange={(e) => setEmail(e.target.value)}
 										required
 									/>
+									{emailErr && <p>{emailErr}</p>}
 								</Form.Group>
 
 								<Form.Group className="mb-3" controlId="formBirthday">

@@ -18,7 +18,7 @@ function FavoriteMovies({ movie }) {
 			<Card className="card">
 				<Card.Body>
 					 <Row>
-					{(movie !== 0) ? (
+					{(movie.length !== 0) ? (
 							<Col
 								xs={12}
 								md={6}
