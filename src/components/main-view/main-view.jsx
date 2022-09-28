@@ -23,7 +23,7 @@ export function MainView() {
       setUser(localStorage.getItem("user"));
       getMovies(accessToken);
     }
-  },[]);
+  },[user, movies]);
 
   const onLoggedIn = (authData) => {
     console.log(authData);
@@ -77,19 +77,25 @@ export function MainView() {
 						/>
 						<Route
 							path="/directors/:name"
-							element={<DirectorView movies={movies} />}
+							element={(movies.length === 0) ?
+								(<div className="main-view" />)
+								:(< DirectorView movies={movies} />)}
 						/>
 						<Route
 							path="/genre/:name"
-							element={<GenreView movies={movies} />}
+							element={(movies.length === 0) ?
+								(<div className="main-view" />)
+								:(< GenreView movies={movies} />)}
 						/>
-						<Route path={`/users/${user}`} element={<ProfileView movies={movies} user={user} />} />
+						<Route path={`/users/${user}`} element={
+							!user ? (<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
+							) : (
+							<ProfileView movies={movies} user={user} />)} />
 					</Routes>
 				</Row>
 			</Container>
 		</BrowserRouter>
 	);
-
 }
 
 export default MainView;

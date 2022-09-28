@@ -25,20 +25,21 @@ export function NavBar({ user }) {
 			<Container>
 				<Navbar className="nav mb-1" variant="dark">
 					<Container>
-						<Navbar.Brand herf="">See You at the Movies!</Navbar.Brand>
-						<Nav className="me-auto">
-							<NavLink className="text" to="/">
+						<Navbar.Brand href="/">See You at the Movies!</Navbar.Brand>
+						<Nav className="d-flex align-items-baseline">
+
+							<NavLink className="text p-3" to="/">
 								Home
 							</NavLink>
-							<NavLink className="text" to={`/users/${user}`}>
+							{isAuth() && (<NavLink className="text p-3" to={`/users/${user}`}>
 								Profile
-							</NavLink>
-							<NavLink className="text" to="/register">
+							</NavLink>)}
+							{!isAuth() && (<NavLink className="text p-3" to="/register">
 								Register
-							</NavLink>
-							<Button className="text" variant="link" onClick={onLoggedOut}>
+							</NavLink>)}
+							{isAuth() && (<Button className="p-3 bg-transparent border-0" variant="primary" onClick={onLoggedOut}>
 								Logout
-							</Button>
+							</Button>)}
 						</Nav>
 					</Container>
 				</Navbar>

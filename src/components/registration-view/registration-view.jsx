@@ -57,7 +57,6 @@ export function RegistrationView(props) {
 					const data = res.data;
 					alert("Registration was successful, please login");
 					window.open("/login", "_self");
-
 				})
 				.catch((e) => {
 					console.log(e);

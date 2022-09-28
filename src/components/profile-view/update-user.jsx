@@ -17,77 +17,70 @@ function UpdateUser({ handleSubmit, handleUpdate, user }) {
 	};
 
 	return (
-		<Container>
-			<Row>
-				<Col>
-					<Card className="reg mx-auto">
-						<Card.Body>
-							<Card.Title className="text-center">Update Profile</Card.Title>
-							<Form>
-								<Form.Group className="mb-3" controlId="formUsername">
-									<Form.Label>Username:</Form.Label>
-									<Form.Control
-										type="text"
-										name="Username"
-										defaultValue={user}
-										onChange={(e) => handleUpdate(e.target.value)}
-										required
-										placeholder="Enter a username"
-									/>
-								</Form.Group>
+<Card>
+			<Card.Body>
 
-								<Form.Group className="mb-3" controlId="formPassword">
-									<Form.Label>Password:</Form.Label>
-									<Form.Control
-										type="password"
-										defaultValue=""
-										onChange={(e) => handleUpdate(e.target.value)}
-										required
-										placeholder="Password must be 4 characters"
-										minLength="4"
-									/>
-								</Form.Group>
+				<Card.Title className="text-center">Update Profile</Card.Title>
+				<Form>
+					<Form.Group className="mb-3" controlId="formUsername">
+						<Form.Label>Username:</Form.Label>
+						<Form.Control
+							type="text"
+							name="Username"
+							defaultValue={user}
+							onChange={(e) => handleUpdate(e.target.value)}
+							required
+							placeholder="Enter a username"
+						/>
+					</Form.Group>
 
-								<Form.Group className="mb-3" controlId="formEmail">
-									<Form.Label>Email:</Form.Label>
-									<Form.Control
-										type="email"
-										defaultValue=""
-										onChange={(e) => handleUpdate(e.target.value)}
-										required
-										placeholder="Enter Email"
-									/>
-								</Form.Group>
+					<Form.Group className="mb-3" controlId="formPassword">
+						<Form.Label>Password:</Form.Label>
+						<Form.Control
+							type="password"
+							defaultValue=""
+							onChange={(e) => handleUpdate(e.target.value)}
+							required
+							placeholder="Password must be 4 characters"
+							minLength="4"
+						/>
+					</Form.Group>
 
-								<Form.Group className="mb-3" controlId="formBirthday">
-									<Form.Label>Birthday:</Form.Label>
-									<Form.Control
-										type="birthday"
-										onChange={(e) => handleUpdate(e.target.value)}
-										placeholder="YYYY-MM-DD"
-									/>
-								</Form.Group>
+					<Form.Group className="mb-3" controlId="formEmail">
+						<Form.Label>Email:</Form.Label>
+						<Form.Control
+							type="email"
+							defaultValue=""
+							onChange={(e) => handleUpdate(e.target.value)}
+							required
+							placeholder="Enter Email"
+						/>
+					</Form.Group>
 
-								<Button
-									variant="outline-secondary"
-									type="submit"
-									onClick={(e) => handleSubmit(e.target.value)}
-								>
-									Submit
-								</Button>
-								<Button
-									variant="outline-danger"
-									type="submit"
-									onClick={deleteUser}
-								>
-									Delete Profile
-								</Button>
-							</Form>
-						</Card.Body>
-					</Card>
-				</Col>
-			</Row>
-		</Container>
+					<Form.Group className="mb-3" controlId="formBirthday">
+						<Form.Label>Birthday:</Form.Label>
+						<Form.Control
+							type="birthday"
+							onChange={(e) => handleUpdate(e.target.value)}
+							placeholder="YYYY-MM-DD"
+						/>
+					</Form.Group>
+
+					<Button variant="outline-danger" type="submit" onClick={deleteUser}>
+						Delete Profile
+					</Button>
+
+					<Button
+						className="float-end"
+						variant="outline-secondary"
+						type="submit"
+						onClick={(e) => handleSubmit(e.target.value)}
+					>
+						Submit
+					</Button>
+				</Form>
+			</Card.Body>
+		</Card>
 	);
 }
 

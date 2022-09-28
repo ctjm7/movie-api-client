@@ -20,7 +20,7 @@ export function ProfileView({ movies }) {
 			setUser(localStorage.getItem("user"));
 			getUser(accessToken);
 		}
-	}, []);
+	}, [user]);
 
 	const getUser = (token) => {
 		const user = localStorage.getItem("user");
@@ -95,12 +95,12 @@ export function ProfileView({ movies }) {
 	};
 
 	return (
-		<Container>
+		<>
 			<Row>
 				<Col xs={12} sm={4}>
 					<Card>
 						<Card.Body>
-							<h3>Profile</h3>
+							<Card.Title>Profile</Card.Title>
 							<p>Name: {username}</p>
 							<p>Email: {email} </p>
 						</Card.Body>
@@ -108,30 +108,27 @@ export function ProfileView({ movies }) {
 				</Col>
 
 				<Col xs={12} sm={8}>
-					<Card>
-						<Card.Body>
 							<UpdateUser
 								user={user}
 								handleSubmit={handleSubmit}
 								handleUpdate={handleUpdate}
 							/>
-						</Card.Body>
-					</Card>
 				</Col>
+			</Row>
 
-				<Col>
-					<Card>
-						<Card.Body>
+			<Row>
+				<h5>Favorite Movies</h5>
+
 							{favoriteMovies.map((movieId) => {
 								let movie = movies.find((m) => m._id === movieId);
 								return (
-									<FavoriteMovies key={movieId} movie={movie} />);
+									<Col xs={12} md={6} lg={4}>
+										<FavoriteMovies key={movieId} movie={movie} />
+									</Col>
+								);
 							}
 							)}
-						</Card.Body>
-					</Card>
-				</Col>
 			</Row>
-		</Container>
+		</>
 	);
 }
