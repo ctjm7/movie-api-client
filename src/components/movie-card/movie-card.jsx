@@ -8,16 +8,18 @@ export class MovieCard extends React.Component {
 		const { movie } = this.props;
 
 		return (
-			<CardGroup className="card-group">
-				<Card className="movie-card my-1">
+			<CardGroup>
+				<Card className="my-1">
 					<Card.Img variant="top" src={movie.ImagePath} />
 					<Card.Body>
 						<Card.Title>{movie.Title}</Card.Title>
 						<Card.Text>{movie.Description}</Card.Text>
-						<Link to={`/movies/${movie._id}`}>
-							<Button variant="outline-secondary">Open</Button>
-						</Link>
 					</Card.Body>
+					<Link to={`/movies/${movie._id}`}>
+						<Button className="float-end mx-3" variant="outline-secondary">
+							Open
+						</Button>
+					</Link>
 				</Card>
 			</CardGroup>
 		);

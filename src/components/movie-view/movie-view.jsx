@@ -18,7 +18,7 @@ export function MovieView({movies}) {
 		let token = localStorage.getItem("token");
 		let url = `https://seeyouatmovies.herokuapp.com/users/${localStorage.getItem(
 				"user")}/movies/${movieId}`;
-			axios.post(url, {
+			axios.post(url, null, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
@@ -30,8 +30,10 @@ export function MovieView({movies}) {
 	};
 
 	return (
-		<Card className="movie-view">
-
+		<Row>
+			{selectMovie().ImagePath === undefined ? (null) : (
+			<Col className="d-flex  justify-content-evenly" md={6}>
+				<Card>
 					<Card.Img
 						className="image"
 						variant="top"
@@ -68,8 +70,10 @@ export function MovieView({movies}) {
 							Add to Favorites
 						</Button>
 					</Card.Body>
-
-		</Card>
+				</Card>
+				</Col>
+				)}
+		</Row>
 	);
   }
 // }

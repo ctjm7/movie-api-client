@@ -23,14 +23,14 @@ export function MainView() {
       setUser(localStorage.getItem("user"));
       getMovies(accessToken);
     }
-  },[user, movies]);
+  },[user]);
 
   const onLoggedIn = (authData) => {
     console.log(authData);
       setUser(authData.user.Username);
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
-    this.getMovies(authData.token);
+    getMovies(authData.token);
   }
 
   const getMovies = (token) => {
@@ -62,35 +62,53 @@ export function MainView() {
 									<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
 								) : (
 									movies.map((m) => (
-										<Col md={3} key={m._id}>
+										<Col
+											className="d-flex align-content-stretch"
+											md={3}
+											key={m._id}
+										>
 											<MovieCard movie={m} />
 										</Col>
 									))
 								)
 							}
 						/>
-						<Route path="/register" element={(<RegistrationView />)} />
+						<Route path="/register" element={<RegistrationView />} />
 						<Route
 							exact
 							path="movies/:id"
-							element={<MovieView movies={movies} />}
+							element={<MovieView movies={movies} />	}
 						/>
 						<Route
 							path="/directors/:name"
-							element={(movies.length === 0) ?
-								(<div className="main-view" />)
-								:(< DirectorView movies={movies} />)}
+							element={
+								movies.length === 0 ? (
+									<div className="main-view" />
+								) : (
+									<DirectorView movies={movies} />
+								)
+							}
 						/>
 						<Route
 							path="/genre/:name"
-							element={(movies.length === 0) ?
-								(<div className="main-view" />)
-								:(< GenreView movies={movies} />)}
+							element={
+								movies.length === 0 ? (
+									<div className="main-view" />
+								) : (
+									<GenreView movies={movies} />
+								)
+							}
 						/>
-						<Route path={`/users/${user}`} element={
-							!user ? (<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
-							) : (
-							<ProfileView movies={movies} user={user} />)} />
+						<Route
+							path={`/users/${user}`}
+							element={
+								!user ? (
+									<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
+								) : (
+									<ProfileView movies={movies} user={user} />
+								)
+							}
+						/>
 					</Routes>
 				</Row>
 			</Container>

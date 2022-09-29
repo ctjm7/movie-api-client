@@ -122,8 +122,8 @@ export function ProfileView({ movies }) {
 							{favoriteMovies.map((movieId) => {
 								let movie = movies.find((m) => m._id === movieId);
 								return (
-									<Col xs={12} md={6} lg={4}>
-										<FavoriteMovies key={movieId} movie={movie} />
+									<Col className="d-flex align-content-stretch" xs={12} md={6} lg={4} key={movieId}>
+										<FavoriteMovies movie={movie} />
 									</Col>
 								);
 							}
