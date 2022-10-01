@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
@@ -76,22 +75,3 @@ export function MovieView({movies}) {
 		</Row>
 	);
   }
-// }
-
-
-// MovieView.propTypes = {
-//   movie: PropTypes.shape({
-//     Title: PropTypes.string.isRequired,
-//     Description: PropTypes.string.isRequired,
-//     ImagePath: PropTypes.string.isRequired,
-//     Genre: PropTypes.shape({
-//       Name: PropTypes.string.isRequired,
-//       Description: PropTypes.string.isRequired
-//     }),
-//     Director: PropTypes.shape({
-//       Name: PropTypes.string.isRequired,
-//       Bio: PropTypes.string.isRequired
-//     })
-//   }).isRequired,
-
-// };

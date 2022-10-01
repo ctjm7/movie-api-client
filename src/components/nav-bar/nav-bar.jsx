@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./nav-bar.scss";
 
 export function NavBar({ user }) {

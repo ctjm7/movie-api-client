@@ -50,11 +50,6 @@ export function LoginView(props) {
 		}
 	};
 	return (
-		<Container>
-			<Row>
-
-			</Row>
-
 			<Container className="justify-content-center">
 				<Row>
 					<Col>
@@ -98,7 +93,6 @@ export function LoginView(props) {
 					</Col>
 				</Row>
 			</Container>
-		</Container>
 	);
 }
 

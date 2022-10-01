@@ -1,8 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { Button, Row, Col, Figure, Card, Container, Row, CardGroup } from "react-bootstrap";
+import { Button, Card, CardGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { MovieView } from "../movie-view/movie-view";
 import "./profile-view.scss";
 
 function FavoriteMovies({ movie }) {
@@ -25,7 +24,6 @@ function FavoriteMovies({ movie }) {
 
 	return (
 		<>
-			{movie !== null ? (
 				<CardGroup className="d-flex align-content-stretch" key={movie._id}>
 					<Card className="my-1">
 
@@ -45,20 +43,9 @@ function FavoriteMovies({ movie }) {
 						</Button>
 					</Card>
 				</CardGroup>
-			) : (
-				<h3>You have no favorite movies saved </h3>
-			)}
 		</>
 	);
 
 }
 
 export default FavoriteMovies;
-
-
-// <Figure className="my-1">
-// 	<Link to={`../movies/${movie._id}`}>
-// 		<Figure.Image src={movie.ImagePath} alt={movie.Title} />
-// 		<Figure.Caption>{movie.Title}</Figure.Caption>
-// 	</Link>
-// </Figure>;

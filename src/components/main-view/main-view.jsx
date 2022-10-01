@@ -27,7 +27,7 @@ export function MainView() {
 
   const onLoggedIn = (authData) => {
     console.log(authData);
-      setUser(authData.user.Username);
+    setUser(authData.user.Username);
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
     getMovies(authData.token);
@@ -77,7 +77,13 @@ export function MainView() {
 						<Route
 							exact
 							path="movies/:id"
-							element={<MovieView movies={movies} />	}
+							element={
+								movies.length === 0 ? (
+								<div className="main-view" />
+								) : (
+									<MovieView movies={movies} />
+								)
+							}
 						/>
 						<Route
 							path="/directors/:name"

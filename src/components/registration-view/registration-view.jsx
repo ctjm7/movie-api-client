@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import './registration-view.scss'
@@ -56,7 +55,7 @@ export function RegistrationView(props) {
 				.then((res) => {
 					const data = res.data;
 					alert("Registration was successful, please login");
-					window.open("/login", "_self");
+					window.open("/", "_self");
 				})
 				.catch((e) => {
 					console.log(e);
@@ -132,9 +131,3 @@ export function RegistrationView(props) {
 		</Container>
 	);
 }
-
-// RegistrationView.propTypes = {
-// 		username: PropTypes.string.isRequired,
-// 		password: PropTypes.string.isRequired,
-// 		email: PropTypes.string.isRequired,
-// };
