@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { setUser, updateUser, deleteUser } from "../../actions/actions";
+import { connect } from "react-redux";
 import FavoriteMovies from "./favorite-movies";
 import "./profile-view.scss";
 
@@ -70,6 +72,7 @@ export function ProfileView({ movies, user }) {
 					alert("Your user account was deleted");
 					localStorage.clear();
 					window.open("/", "_self");
+					deleteUser("");
 				})
 				.catch((e) => console.log(e));
 	};
@@ -92,8 +95,9 @@ export function ProfileView({ movies, user }) {
 					const data = response.data;
 					console.log(data);
 					getUser();
+					updateUser(data.Username);
 					alert("Profile is updated");
-					window.open(`/users/${user}`, "_self");
+					window.open(`/users/${data.Username}`, "_self");
 				})
 				.catch((e) => {
 					console.log(e);
@@ -212,3 +216,11 @@ export function ProfileView({ movies, user }) {
 		</>
 	);
 }
+
+let mapStateToProps = (state) => {
+	return {
+		user: state.user
+	};
+};
+
+export default connect(mapStateToProps, { setUser, updateUser, deleteUser })(ProfileView);

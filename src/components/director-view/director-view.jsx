@@ -1,16 +1,18 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Col } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
+import { connect } from "react-redux";
 import "./director-view.scss";
 
-export function DirectorView ({movies}) {
+export function DirectorView({movies}) {
 
 	const selectDirector = () => {
 		const { name } = useParams();
 		return movies.find((m) => m.Director.Name === name);
 	}
 
-		return (
+	return (
+		<Col md={8}>
 			<Card className="director-view">
 				<Card.Title>Director</Card.Title>
 				<Card.Subtitle>{selectDirector().Director.Name}</Card.Subtitle>
@@ -19,5 +21,8 @@ export function DirectorView ({movies}) {
 					<Button variant="outline-secondary">Back</Button>
 				</Link>
 			</Card>
-		);
-	}
+		</Col>
+	);
+}
+
+export default DirectorView;
