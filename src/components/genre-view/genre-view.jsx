@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Col } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 import "./genre-view.scss";
 
@@ -10,7 +10,8 @@ export function GenreView ({movies}) {
 		return movies.find((m) => m.Genre.Name === name);
 	}
 
-		return (
+	return (
+		<Col md={8}>
 			<Card className="genre-view">
 				<Card.Title>Genre</Card.Title>
 				<Card.Subtitle>{selectGenre().Genre.Name}</Card.Subtitle>
@@ -19,5 +20,6 @@ export function GenreView ({movies}) {
 					<Button variant="outline-secondary">Back</Button>
 				</Link>
 			</Card>
-		);
+		</Col>
+	);
 	}

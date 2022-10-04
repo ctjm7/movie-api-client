@@ -1,10 +1,12 @@
 import React, {useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
+import { connect } from 'react-redux';
+import { Container, Row } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { setMovies, setUser  } from '../../actions/actions';
+import MoviesList from '../movies-list/movies-list';
 import { LoginView } from "../login-view/login-view";
 import { RegistrationView } from "../registration-view/registration-view";
-import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { DirectorView } from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
@@ -12,22 +14,20 @@ import { ProfileView } from "../profile-view/profile-view";
 import { NavBar } from "../nav-bar/nav-bar";
 import "./main-view.scss";
 
-
-export function MainView() {
-  const [movies, setMovies] = useState([]);
-  const [user, setUser] = useState("");
+function MainView(props) {
+	const { movies, user } = props;
 
   useEffect(() => {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
-      setUser(localStorage.getItem("user"));
+      props.setUser(localStorage.getItem("user"));
       getMovies(accessToken);
     }
   },[user]);
 
   const onLoggedIn = (authData) => {
     console.log(authData);
-    setUser(authData.user.Username);
+    props.setUser(authData.user.Username);
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
     getMovies(authData.token);
@@ -39,7 +39,7 @@ export function MainView() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        setMovies(response.data);
+        props.setMovies(response.data);
         })
       .catch((error) => {
         console.log(error);
@@ -61,15 +61,7 @@ export function MainView() {
 								!user ? (
 									<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
 								) : (
-									movies.map((m) => (
-										<Col
-											className="d-flex align-content-stretch"
-											md={3}
-											key={m._id}
-										>
-											<MovieCard movie={m} />
-										</Col>
-									))
+										<MoviesList movies={movies}/>
 								)
 							}
 						/>
@@ -122,4 +114,11 @@ export function MainView() {
 	);
 }
 
-export default MainView;
+let mapStateToProps = state => {
+	return {
+		movies: state.movies,
+		user: state.user
+	}
+}
+
+export default connect(mapStateToProps, { setMovies, setUser }) (MainView);
