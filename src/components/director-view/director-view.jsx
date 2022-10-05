@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Card, Col } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
-import { connect } from "react-redux";
 import "./director-view.scss";
 
 export function DirectorView({movies}) {

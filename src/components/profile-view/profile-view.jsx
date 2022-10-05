@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import { setUser, updateUser, deleteUser } from "../../actions/actions";
-import { connect } from "react-redux";
+import { logout, userUpdate } from "../../features/user-reducer";
+import { useDispatch } from "react-redux";
 import FavoriteMovies from "./favorite-movies";
 import "./profile-view.scss";
 
@@ -16,6 +16,7 @@ export function ProfileView({ movies, user }) {
 	const [usernameErr, setUsernameErr] = useState("");
 	const [passwordErr, setPasswordErr] = useState("");
 	const [emailErr, setEmailErr] = useState("");
+	const dispatch = useDispatch();
 
 	// validate user inputs
 	const validate = () => {
@@ -54,6 +55,7 @@ export function ProfileView({ movies, user }) {
 				const data = response.data;
 				setProfile(data);
 				setFavoriteMovies(data.FavoriteMovies);
+				dispatch(userUpdate(data.Username));
 				console.log(response.data);
 			})
 			.catch(function (e) {
@@ -72,7 +74,7 @@ export function ProfileView({ movies, user }) {
 					alert("Your user account was deleted");
 					localStorage.clear();
 					window.open("/", "_self");
-					deleteUser("");
+					dispatch(logout());
 				})
 				.catch((e) => console.log(e));
 	};
@@ -95,7 +97,6 @@ export function ProfileView({ movies, user }) {
 					const data = response.data;
 					console.log(data);
 					getUser();
-					updateUser(data.Username);
 					alert("Profile is updated");
 					window.open(`/users/${data.Username}`, "_self");
 				})
@@ -217,10 +218,4 @@ export function ProfileView({ movies, user }) {
 	);
 }
 
-let mapStateToProps = (state) => {
-	return {
-		user: state.user
-	};
-};
-
-export default connect(mapStateToProps, { setUser, updateUser, deleteUser })(ProfileView);
+export default ProfileView;

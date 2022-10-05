@@ -1,9 +1,10 @@
-import React, {useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../features/user-reducer';
+import { setMovies } from '../../features/movies-reducer';
 import { Container, Row } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { setMovies, setUser  } from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
 import { LoginView } from "../login-view/login-view";
 import { RegistrationView } from "../registration-view/registration-view";
@@ -14,20 +15,22 @@ import { ProfileView } from "../profile-view/profile-view";
 import { NavBar } from "../nav-bar/nav-bar";
 import "./main-view.scss";
 
-function MainView(props) {
-	const { movies, user } = props;
+function MainView() {
+	const user = useSelector((state) => state.user.value);
+	const movies = useSelector((state) => state.movies.value);
+	const dispatch = useDispatch();
 
   useEffect(() => {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
-      props.setUser(localStorage.getItem("user"));
+      dispatch(login(localStorage.getItem("user")));
       getMovies(accessToken);
     }
   },[user]);
 
   const onLoggedIn = (authData) => {
     console.log(authData);
-    props.setUser(authData.user.Username);
+		dispatch(login(authData.user.Username));
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
     getMovies(authData.token);
@@ -39,7 +42,7 @@ function MainView(props) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        props.setMovies(response.data);
+        dispatch(setMovies(response.data));
         })
       .catch((error) => {
         console.log(error);
@@ -58,10 +61,10 @@ function MainView(props) {
 							path="/"
 							element={
 								/* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView */
-								!user ? (
+									!user ? (
 									<LoginView onLoggedIn={(user) => onLoggedIn(user)} />
 								) : (
-										<MoviesList movies={movies}/>
+									<MoviesList movies={movies} />
 								)
 							}
 						/>
@@ -71,7 +74,7 @@ function MainView(props) {
 							path="movies/:id"
 							element={
 								movies.length === 0 ? (
-								<div className="main-view" />
+									<div className="main-view" />
 								) : (
 									<MovieView movies={movies} />
 								)
@@ -114,11 +117,4 @@ function MainView(props) {
 	);
 }
 
-let mapStateToProps = state => {
-	return {
-		movies: state.movies,
-		user: state.user
-	}
-}
-
-export default connect(mapStateToProps, { setMovies, setUser }) (MainView);
+export default MainView;

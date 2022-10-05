@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import './login-view.scss';
 
@@ -105,9 +104,4 @@ LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	handleSubmit: (username, password) =>
-		dispatch(handleSubmit(username, password)),
-});
-
-export default connect(null, mapDispatchToProps)(LoginView);
+export default LoginView;

@@ -1,44 +1,52 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import { connect } from 'react-redux';
-import VisibilityFilterInput from '../visibility-filter-inputs/visibility-filter-input';
+import { Col, Form } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { filter } from "../../features/visibilityfilter-reducer";
 import { MovieCard } from '../movie-card/movie-card';
 
-const mapStateToProps = state => {
-  const { visibilityFilter } = state;
-  return { visibilityFilter };
-};
+function MoviesList() {
+	const movies = useSelector((state) => state.movies.value);
+	const visibilityFilter = useSelector((state) => state.visibilityFilter.value);
+	const dispatch = useDispatch();
 
-function MoviesList(props) {
-	const { movies, visibilityFilter } = props;
-	let filteredMovies = movies;
-
-	if (visibilityFilter !== "") {
-		filteredMovies = movies.filter((m) =>
-			m.Title.toLowerCase().includes(visibilityFilter.toLowerCase())
+	const filteredMovies = movies.filter((m) =>
+		m.Title.toLowerCase().includes(visibilityFilter.toLowerCase())
 		);
-  }
-
-	if (!movies) return <div className="main-view" />;
 
   return (
 		<>
-			<Col md={12} style={{ margin: "1em" }}>
-				<VisibilityFilterInput visibilityFilter={visibilityFilter} />
+			<Col md={12}>
+				<Form.Control
+					onChange={(e) => dispatch(filter(e.target.value))}
+					value={visibilityFilter}
+					placeholder="filter"
+				/>
 			</Col>
-			{filteredMovies.map((m) => (
-				<Col
-					sm={6}
-					md={4}
-					lg={3}
-					className="d-flex align-content-stretch"
-					key={m._id}
-				>
-					<MovieCard movie={m} />
-				</Col>
-			))}
+			{visibilityFilter !== ""
+				? filteredMovies.map((m) => (
+						<Col
+							sm={6}
+							md={4}
+							lg={3}
+							className="d-flex align-content-stretch"
+							key={m._id}
+						>
+							<MovieCard movie={m} />
+						</Col>
+				  ))
+				: movies.map((m) => (
+						<Col
+							sm={6}
+							md={4}
+							lg={3}
+							className="d-flex align-content-stretch"
+							key={m._id}
+						>
+							<MovieCard movie={m} />
+						</Col>
+				  ))}
 		</>
 	);
 }
 
-export default connect(mapStateToProps)(MoviesList);
+export default MoviesList;

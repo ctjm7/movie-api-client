@@ -3,13 +3,21 @@ import { createRoot } from 'react-dom/client';
 import Container from 'react-bootstrap/Container';
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from 'react-redux';
-import moviesApp from './reducers/reducers';
+import userReducer from './features/user-reducer';
+import moviesReducer from './features/movies-reducer';
+import visibilityfilterReducer from './features/visibilityfilter-reducer';
 import MainView from './components/main-view/main-view';
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import './index.scss';
 
-const store = configureStore({ reducer: moviesApp });
+const store = configureStore({
+	reducer: {
+		user: userReducer,
+		movies: moviesReducer,
+		visibilityFilter: visibilityfilterReducer
+	}
+	});
 
 // Main component (will eventually use all the others)
 class MoviesApplication extends React.Component {
@@ -28,7 +36,5 @@ class MoviesApplication extends React.Component {
 const container = document.getElementsByClassName('app-container')[0];
 
 // Tells React to render your app in the root DOM element
-// ReactDom.render(React.createElement(MoviesApplication), container);
-
 const root = createRoot(container);
 root.render(<MoviesApplication />);
